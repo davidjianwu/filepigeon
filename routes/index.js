@@ -23,7 +23,7 @@ let upload = multer({
       cb(null, {fileKey: key});
     },
     key: function(req, file, cb) {
-      cb(null, file.originalname);
+      cb(null, key + '/' + file.originalname);
     }
   })
 })
@@ -33,8 +33,12 @@ router.get('/generate', (req,res) => {
   res.send(key);
 });
 
-router.get('/:key', (req,res) => {
-  //display database files for this key
+router.get('/:fileKey', (req,res) => {
+  let params = {
+    Bucket: "speedipigeon",
+
+  };
+  s3.getObject()
 
 });
 
