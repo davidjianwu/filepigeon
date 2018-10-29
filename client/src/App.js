@@ -45,7 +45,7 @@ class App extends Component {
               Current Session: {this.state.key}
             </p>
             <p>
-              <Upload>
+              <Upload action='/upload'>
                 <Button>
                   <Icon type="upload"/> Select File
                 </Button>
