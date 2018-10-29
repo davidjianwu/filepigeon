@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Input, Button, List } from 'antd';
+import { Input, Button, List, Upload, Icon } from 'antd';
 import 'antd/dist/antd.css'
 
 class App extends Component {
@@ -40,9 +40,18 @@ class App extends Component {
         </div>
         {
           this.state.key !== "" &&
-          <p>
-            Current Session: {this.state.key}
-          </p>
+          <div>
+            <p>
+              Current Session: {this.state.key}
+            </p>
+            <p>
+              <Upload>
+                <Button>
+                  <Icon type="upload"/> Select File
+                </Button>
+              </Upload>
+            </p>
+          </div>
         }
         <List itemLayout="horizontal" dataSource={this.state.files} renderItem={item => (
             <List.Item>
