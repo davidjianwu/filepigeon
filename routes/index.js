@@ -7,20 +7,24 @@ const multerS3 = require('multer-s3');
 const credentials = require('../credentials.js')
 const fs = require('fs');
 
+//Name of session ID
 let key = "";
 
 AWS.config.update({
-  accessKeyId: credentials.aws_s3_access,
-  secretAccessKey: credentials.aws_s3_secret
+  accessKeyId: process.env.S3_KEY,
+  secretAccessKey: process.env.S3_SECRET
 });
 
-let s3 = new AWS.S3({signatureVersion: 'v4', region: 'us-east-2'});
+let s3 = new AWS.S3({ signatureVersion: 'v4', region: 'us-east-2' });
 
 let upload = multer({
+  //50MB limit
+  limits: { fileSize: 52428800 },
   storage: multerS3({
     s3: s3,
     bucket: 'speedipigeon',
     metadata: function(req, file, cb) {
+      //@2nd parameter accepts an object in form of whatitscalled:argument
       cb(null, {fileKey: key});
     },
     key: function(req, file, cb) {
@@ -32,6 +36,12 @@ let upload = multer({
 router.get('/generate', (req,res) => {
   key = randomize('aA0',10);
   res.send(key);
+});
+
+router.get('/changeSession/:inputKey', (req, res) => {
+    key = req.params.inputKey;
+    console.log('KEY AFTER CHNAGE =>>>>', key);
+    res.send(inputKey);
 });
 
 router.get('/:id', (req,res) => {

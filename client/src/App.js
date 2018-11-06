@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, List, Upload, Icon } from 'antd';
+import { Input, Button, List, Upload, Icon, message } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css'
 const download = require("downloadjs");
@@ -15,10 +15,8 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-  }
-
   handleGenerate() {
+    this.setState({files:[]});
     fetch('/generate').then(res => res.text()).then(key => this.setState({key}));
   }
 
@@ -27,7 +25,22 @@ class App extends Component {
   }
 
   handleSearch() {
+    this.setState({files:[]});
     fetch(`/${this.state.searchValue}`).then(res => res.json()).then(files => this.setState({files}));
+    fetch(`/changeSession/${this.state.searchValue}`);
+    this.setState({key: this.state.searchValue});
+  }
+
+  handleUploadStatus(info) {
+    if(info.file.status === 'uploading') {
+    }
+    else if(info.file.status === 'done') {
+      message.success('File Uploaded', 3);
+      fetch(`/${this.state.key}`).then(res => res.json()).then(files => this.setState({files}));
+    }
+    else if(info.file.status === 'error') {
+      message.error('Error Uploading File', 3);
+    }
   }
 
   async handleDownload(keyPrefix,keyOriginal) {
@@ -61,7 +74,7 @@ class App extends Component {
               Current Session: {this.state.key}
             </p>
             <p>
-              <Upload action='/upload'>
+              <Upload action='/upload' onChange={this.handleUploadStatus.bind(this)}>
                 <Button>
                   <Icon type="upload"/> Select File
                 </Button>
