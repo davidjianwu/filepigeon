@@ -4,7 +4,7 @@ const randomize = require('randomatic');
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const credentials = require('../credentials.js')
+//const credentials = require('../credentials.js')
 const fs = require('fs');
 
 //Name of session ID
