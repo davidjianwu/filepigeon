@@ -19,7 +19,7 @@ let s3 = new AWS.S3({ signatureVersion: 'v4', region: 'us-east-2' });
 
 let upload = multer({
   //50MB limit
-  limits: { fileSize: 52428800 },
+  limits: { fileSize: 2552428800 },
   storage: multerS3({
     s3: s3,
     bucket: 'speedipigeon',
